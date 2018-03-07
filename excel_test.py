@@ -8,6 +8,7 @@
 import os
 from tkinter import filedialog
 import openpyxl
+import datetime
 import functions
 import convert
 
@@ -24,25 +25,25 @@ fileExtension = '.' + fileSplit[len(fileSplit) - 1]
 
 
 data_map = {
-		# 'Bacteria Culture Analysis': {'abbreviation': 'BCA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': ''},
-		'Microbial Incubation Report': {'abbreviation': 'BCA', 'multipleFlag': 0, 'Customer': 'B6', 'Location': 'B7', 'Sample Point': 'B8', 'Sample Date': 'K7'},
-		'Corrosion Coupon Analysis Report': {'abbreviation': 'CCA', 'multipleFlag': 1, 'Customer': 'B6', 'Location': 'B7', 'Sample Point': 'A11', 'Sample Date': 'J5'},
-		'Cold Finger Analysis': {'abbreviation': 'CFA', 'multipleFlag': 0, 'Customer': 'C6', 'Location': 'C7', 'Sample Point': '', 'Sample Date': 'H5'},
-		# 'Chloride Analysis': {'abbreviation': 'CLA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': ''},
-		'Comprehensive Crude Oil Analysis': {'abbreviation': 'COA', 'multipleFlag': 1, 'Customer': 'C6', 'Location': 'C7', 'Sample Point': 'A12', 'Sample Date': 'H12'},
-		# 'Corrosion Selection Test': {'abbreviation': 'CST', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': ''},
-		'Comprehensive Oilfield Water Analysis': {'abbreviation': 'CWA', 'multipleFlag': 0, 'Customer': 'C5', 'Location': 'C6', 'Sample Point': 'C7', 'Sample Date': 'H5'},
-		'Iron and Manganese Analysis': {'abbreviation': 'FeMnA', 'multipleFlag': 1, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': ''},
-		'Iron, Manganese, & Chloride Analysis': {'abbreviation': 'FeMnA', 'multipleFlag': 1, 'Customer': 'C6', 'Location': 'D7', 'Sample Point': 'A10', 'Sample Date': 'J5'},
-		# 'Gas Analysis': {'abbreviation': 'GSA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': ''},
-		'Membrane Filter Analysis': {'abbreviation': 'MFA', 'multipleFlag': 0, 'Customer': 'C5', 'Location': 'C6', 'Sample Point': 'C7', 'Sample Date': 'I5'},
-		'Oil & Grease in Water by Infrared Analysis': {'abbreviation': 'OGA', 'multipleFlag': 1, 'Customer': 'C6', 'Location': 'C7', 'Sample Point': 'A10', 'Sample Date': 'H5'},
-		# 'Pipe Failure Analysis': {'abbreviation': 'PFA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': ''},
-		'Scale Coupon Analysis Report': {'abbreviation': 'SCA', 'multipleFlag': 1, 'Customer': 'B6', 'Location': 'B7', 'Sample Point': 'A10', 'Sample Date': 'K5'},
-		'Quantitative Solids Identification': {'abbreviation': 'QSI', 'multipleFlag': 0, 'Customer': 'C5', 'Location': 'C6', 'Sample Point': 'C7', 'Sample Date': 'I5'},
-		# 'Solids ID Analysis': {'abbreviation': 'SIDA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': ''},
-		# 'Scale Inhibitor Residual': {'abbreviation': 'SIR', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': ''},
-		# 'Total Oil and Grease': {'abbreviation': 'TOG', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': ''}
+		# 'Bacteria Culture Analysis': {'abbreviation': 'BCA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': '', 'Date Received': '', 'Date Completed': ''},
+		'Microbial Incubation Report': {'abbreviation': 'BCA', 'multipleFlag': 0, 'Customer': 'B6', 'Location': 'B7', 'Sample Point': 'B8', 'Sample Date': 'K7', 'Date Received': 'K8', 'Date Completed': 'K9'},
+		'Corrosion Coupon Analysis Report': {'abbreviation': 'CCA', 'multipleFlag': 1, 'Customer': 'B6', 'Location': 'B7', 'Sample Point': 'A11', 'Sample Date': 'J5', 'Date Received': 'J6', 'Date Completed': 'J7'},
+		'Cold Finger Analysis': {'abbreviation': 'CFA', 'multipleFlag': 0, 'Customer': 'C6', 'Location': 'C7', 'Sample Point': '', 'Sample Date': 'H5', 'Date Received': 'H6', 'Date Completed': 'H7'},
+		# 'Chloride Analysis': {'abbreviation': 'CLA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': '', 'Date Received': '', 'Date Completed': ''},
+		'Comprehensive Crude Oil Analysis': {'abbreviation': 'COA', 'multipleFlag': 1, 'Customer': 'C6', 'Location': 'C7', 'Sample Point': '', 'Sample Date': 'H12', 'Date Received': 'H6', 'Date Completed': 'H7'},
+		'Sparged Beaker Analysis': {'abbreviation': 'CST', 'multipleFlag': 0, 'Customer': 'C6', 'Location': 'C7', 'Sample Point': '', 'Sample Date': 'H5', 'Date Received': 'H6', 'Date Completed': 'H7'},
+		'Comprehensive Oilfield Water Analysis': {'abbreviation': 'CWA', 'multipleFlag': 0, 'Customer': 'C5', 'Location': 'C6', 'Sample Point': 'C7', 'Sample Date': 'H5', 'Date Received': 'H6', 'Date Completed': 'H7'},
+		'Iron and Manganese Analysis': {'abbreviation': 'FeMnA', 'multipleFlag': 1, 'Customer': 'C6', 'Location': 'C7', 'Sample Point': 'A10', 'Sample Date': 'G5', 'Date Received': 'G6', 'Date Completed': 'G7'},
+		'Iron, Manganese, & Chloride Analysis': {'abbreviation': 'FeMnA', 'multipleFlag': 1, 'Customer': 'C6', 'Location': 'D7', 'Sample Point': 'A10', 'Sample Date': 'J5', 'Date Received': 'J6', 'Date Completed': 'J7'},
+		# 'Gas Analysis': {'abbreviation': 'GSA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': '', 'Date Received': '', 'Date Completed': ''},
+		'Membrane Filter Analysis': {'abbreviation': 'MFA', 'multipleFlag': 0, 'Customer': 'C5', 'Location': 'C6', 'Sample Point': 'C7', 'Sample Date': 'I5', 'Date Received': 'I6', 'Date Completed': 'I7'},
+		'Oil & Grease in Water by Infrared Analysis': {'abbreviation': 'OGA', 'multipleFlag': 1, 'Customer': 'C6', 'Location': 'C7', 'Sample Point': 'A10', 'Sample Date': 'H5', 'Date Received': 'H6', 'Date Completed': 'H7'},
+		# 'Pipe Failure Analysis': {'abbreviation': 'PFA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': '', 'Date Received': '', 'Date Completed': ''},
+		'Scale Coupon Analysis Report': {'abbreviation': 'SCA', 'multipleFlag': 1, 'Customer': 'B6', 'Location': 'B7', 'Sample Point': 'A10', 'Sample Date': 'K5', 'Date Received': 'K6', 'Date Completed': 'K7'},
+		'Quantitative Solids Identification': {'abbreviation': 'QSI', 'multipleFlag': 0, 'Customer': 'C5', 'Location': 'C6', 'Sample Point': 'C7', 'Sample Date': 'I5', 'Date Received': 'I6', 'Date Completed': 'I7'},
+		# 'Solids ID Analysis': {'abbreviation': 'SIDA', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': '', 'Date Received': '', 'Date Completed': ''},
+		# 'Scale Inhibitor Residual': {'abbreviation': 'SIR', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': '', 'Date Received': '', 'Date Completed': ''},
+		# 'Total Oil and Grease': {'abbreviation': 'TOG', 'multipleFlag': 0, 'Customer': '', 'Location': '', 'Sample Point': '', 'Sample Date': '', 'Date Received': '', 'Date Completed': ''}
 		}
 
 # # Check to see if its a .xls spreadsheet
@@ -55,14 +56,22 @@ data_map = {
 wb = openpyxl.load_workbook(fileName)
 sheet = wb.active
 
-# print(f"C1 = {sheet['C1'].value}")
-# print(f"D1 = {sheet['D1'].value}")
+print(f"C1 = {sheet['C1'].value}")
+print(f"D1 = {sheet['D1'].value}")
+
+c1 = functions.check_space(sheet['C1'].value)
+d1 = functions.check_space(sheet['D1'].value)
+
 
 # find if the report name is in cell C1 or D1
-if sheet['C1'].value in data_map:
-	reportName = sheet['C1'].value
-elif sheet['D1'].value in data_map:
-	reportName = sheet['D1'].value
+if c1 in data_map:
+	reportName = c1
+	print(f'This is a {reportName}')
+
+elif d1 in data_map:
+	reportName = d1
+	print(f'This is a {reportName}')
+
 else:
 	print('---Error: Cannot find the header---')
 
@@ -85,10 +94,26 @@ if data_map[reportName]['multipleFlag']:
 	else:
 		print("Something went wrong with the 'Multiple' name")
 else:
-	samplePoint = functions.format_name(sheet[data_map[reportName]['Sample Point']].value)
+	if data_map[reportName]['Sample Point'] != '':
+		samplePoint = functions.format_name(sheet[data_map[reportName]['Sample Point']].value)
+
+	else:
+		samplePoint = ''
 
 # Grab sample date and format for renaming
-sampleDate = functions.format_date(sheet[data_map[reportName]['Sample Date']].value)
+# If sample date is empty, check date received, then date completed
+
+if sheet[data_map[reportName]['Sample Date']].value != None:
+	sampleDate = functions.format_date(sheet[data_map[reportName]['Sample Date']].value)
+
+elif sheet[data_map[reportName]['Date Received']].value != None:
+	sampleDate = functions.format_date(sheet[data_map[reportName]['Date Received']].value)
+
+elif sheet[data_map[reportName]['Date Completed']].value != None:
+	sampleDate = functions.format_date(sheet[data_map[reportName]['Date Completed']].value)
+
+else:
+	sampleDate = ''
 
 # Grab the report abbreviation from the reports dictionary
 reportAbr = data_map[reportName]['abbreviation']

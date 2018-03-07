@@ -5,12 +5,15 @@ import datetime
 def check_space(var):
 	"""Checks to see if passed string has an empty space before or after the string"""
 	# Check to find a beginning space
-	if var[0] == ' ':
-		var = var[1:]
-	# Check to find an ending space
-	if var[len(var) - 1] == ' ':
-		var = var[:len(var) - 1]
-	return var
+	if isinstance(var, str):
+		if var[0] == ' ':
+			var = var[1:]
+		# Check to find an ending space
+		if var[len(var) - 1] == ' ':
+			var = var[:len(var) - 1]
+		return var
+	else:
+		print(f'check_space cannot iterate over {type(var)}')
 
 def format_name(data):
 	"""Accepts a string to be formatted for the file renaming"""
@@ -42,7 +45,7 @@ def format_date(date):
 		day = preceding_zero(str(date.day))
 		year = str(date.year)[2:]
 
-	# Check if date is a string
+
 	elif isinstance(date, str):
 		# Check to see if date is formatted like: MM/DD/YYYY
 		if '/' in date:
@@ -89,8 +92,8 @@ def format_date(date):
 				print("Something's wrong with this date...")
 
 	else:
-		print('Date is not a valid format')
-		return 0
+		print(f'{date} is not a valid date format')
+		return ''
 
 	# Return the formatted date
 	return year + month + day
