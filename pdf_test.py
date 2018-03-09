@@ -15,16 +15,31 @@
 import os
 from tkinter import filedialog
 import functions
+import PyPDF2
 
-print(functions.preceding_zero('2'))
+# os.chdir('C:\\Users\\tsl\\Desktop\\Lab Data')
+#OneDrive - Pine Island Chemical\\Programming\\Python\\Projects')
+fileName = filedialog.askopenfilename()
 
+# Need to retain the file extension for renaming
+# I split by '.' because i don't know how long the file extension is: Ex. .pdf or .xlsx
+fileSplit = fileName.split('.')
 
-filename = filedialog.askopenfilename()
-print(f'Opening {filename}')
-text = open(filename, 'r').read()
+# Add a period back to the last element of the split name
+fileExtension = '.' + fileSplit[len(fileSplit) - 1]
+
+pdfFileObj = open(fileName, 'rb')
+pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+
+pageObj = pdfReader.getPage(0)
+text = pageObj.extractText()
 text = text.split('\n')
 
-
+receivedDate = text[text.index('Received Date:') + 8]
+samplePoint = text[text.index('Received Date:') + 13]
+customer = text[text.index('Received Date:') + 17]
+report = text[text.index('Received Date:') + 28]
+location = text[text.index('Received Date:') + 38]
 
 reports = {'Bacteria Culture Analysis': 'BCA',
 		'Corrosion Coupon Analysis': 'CCA',
@@ -44,8 +59,15 @@ reports = {'Bacteria Culture Analysis': 'BCA',
 		'Total Oil and Grease': 'TOG'
 		}
 
-newName = f'{reports[check_space(text[13])]}_{check_space(text[23])}_{check_space(text[29])}_{check_space(text[33])}_{format_date(text[26])}.txt'
 
-print(filename +' renamed to: ' + newName)
 
-os.rename(filename, newName)
+print(receivedDate)
+print(samplePoint)
+print(customer)
+print(report)
+print(location)
+print(fileExtension)
+
+# print(fileName +' renamed to: ' + newName)
+
+# os.rename(fileName, newName)

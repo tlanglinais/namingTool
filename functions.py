@@ -13,7 +13,8 @@ def check_space(var):
 			var = var[:len(var) - 1]
 		return var
 	else:
-		print(f'check_space cannot iterate over {type(var)}')
+		# print(f'check_space cannot iterate over {type(var)}')
+		return var
 
 def format_name(data):
 	"""Accepts a string to be formatted for the file renaming"""

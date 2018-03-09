@@ -10,7 +10,7 @@ from tkinter import filedialog
 import openpyxl
 import datetime
 import functions
-import convert
+# import convert
 
 # Promp File Select
 fileName = filedialog.askopenfilename()
@@ -56,8 +56,8 @@ data_map = {
 wb = openpyxl.load_workbook(fileName)
 sheet = wb.active
 
-print(f"C1 = {sheet['C1'].value}")
-print(f"D1 = {sheet['D1'].value}")
+# print(f"C1 = {sheet['C1'].value}")
+# print(f"D1 = {sheet['D1'].value}")
 
 c1 = functions.check_space(sheet['C1'].value)
 d1 = functions.check_space(sheet['D1'].value)
