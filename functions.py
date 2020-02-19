@@ -20,7 +20,7 @@ def format_name(data):
 	"""Accepts a string to be formatted for the file renaming"""
 	# print(f'Data type: {type(data)}')
 
-	prohibited_characters = ['~', '#', '%', '&', '*', '{', '}', '\\', ':', '<', '>', '?', '/', '+', '|', '"']
+	prohibited_characters = ['~', '#', '%', '&', '*', '{', '}', '\\', ':', '<', '>', '?', '/', '+', '|', '"', '.']
 
 	if isinstance(data, str):
 		for i in range(len(prohibited_characters)):
